@@ -89,6 +89,34 @@ function renderCode(text, ext) { // Tem um bug e acho que é aqui
     hljs.highlightAll();
 }
 
+// Adiciona #/ antes de um caminho relativo e remove a / final, se existir
+// Essa função resolve o problema de links relativos em arquivos Markdown abrirem o arquivo bruto ao invés da interface bonitinha
+function fixMarkdownRelativeUrls(){
+    const viewer = document.getElementById("viewer"); // Vai mexer somente nas âncoras do viewer de Markdown
+    const anchors = Array.from(viewer.getElementsByTagName("a"));
+
+    for (let a of anchors){
+        let url = a.getAttribute("href")
+        
+        if (!url.includes("://") && !url.includes("Banquinho")){
+            let fixedUrl = "";
+            if (url.startsWith('/')){
+                fixedUrl = "#" + url;
+            }
+            else{
+                fixedUrl = "#/" + url;
+            }
+            
+            // Remove a última barra da url porque isso faz com que a sidebar não mude caso o link no md seja de uma pasta
+            if (fixedUrl.endsWith("/")){ 
+                fixedUrl = fixedUrl.slice(0, fixedUrl.length-1); 
+            }
+            console.log(fixedUrl);
+            a.setAttribute("href", fixedUrl);            
+        }
+    }
+}
+
 // Renderização do markdown
 // Aqui tenho que admitir que foi o chat que fez porque não entendi nada dessa parte
 function renderMarkdown(markdown) {
@@ -115,6 +143,8 @@ function renderMarkdown(markdown) {
     document.querySelectorAll('.warning').forEach(el => {
         el.insertAdjacentHTML('afterbegin', '<strong style="display:block; margin-bottom:0.5em">Atenção</strong>');
     });
+
+    fixMarkdownRelativeUrls();
 }
 
 // Tratamento de blocos especiais em Markdown 
