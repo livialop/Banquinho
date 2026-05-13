@@ -1,0 +1,54 @@
+<script>
+    class ValorInvalidoError extends Error {}
+
+    function validarNome(nome) {
+        if (typeof nome !== 'string' || parseInt(nome, 10)) {
+            throw new ValorInvalidoError('Nome inválido:', nome)
+        }
+    }
+
+    function validarIdade(idade) {
+        if (!Number.isInteger(idade) || idade < 0) {
+            throw new ValorInvalidoError('Idade inválida:', idade)
+        }
+    }
+
+    function validarFoiADisney(foiOuNumFoi) {
+        if (typeof foiOuNumFoi !== 'boolean') {
+            throw new ValorInvalidoError('Valor se foi à Disney inválido:', foiOuNumFoi)
+        }
+    }
+
+    while (true) {
+        let nome = prompt('Digite o nome: ')
+        try {
+            validarNome(nome)
+            break
+        } catch (err) {
+            alert('nome inválido')
+        }
+    }
+
+
+    while (true) {
+        try {
+            let idade = parseInt(prompt('Digite a idade'),10)
+            validarIdade(idade)
+            break
+        } catch (err) {
+            console.log('idade inválida')
+        }
+    }
+
+    
+    while (true) {
+        try {
+            let foi = prompt('Foi à disney?') === 'sim'
+            validarFoiADisney(foi)
+            break
+        } catch (err) {
+            console.log('Sei não se foi, visse')
+        }
+    }
+    console.log('deu certo de novo')
+</script>
