@@ -1,0 +1,62 @@
+<script>
+    
+class ValorInvalidoError extends Error {}
+
+function validarNome(nome) {
+    if (parseInt(nome)) {
+        throw new ValorInvalidoError('Nome inválido:', nome)
+    }
+}
+
+function validarIdade(idade) {
+    if (!Number.isInteger(idade) || idade < 0) {
+        throw new ValorInvalidoError('Idade inválida:', idade)
+    }
+}
+
+function validarFoiADisney(foiOuNumFoi) {
+    if (typeof foiOuNumFoi !== 'boolean') {
+        throw new ValorInvalidoError('Valor se foi à Disney inválido:', foiOuNumFoi)
+    }
+}
+
+let pessoa = {}
+let nomeValido = false
+do {
+    let nome = prompt('Nome')
+    try {
+        validarNome(nome)
+        nomeValido = true
+        pessoa.nome = nome
+    } catch (e) {
+        alert('Digite um nome de gente')
+    }
+} while (!nomeValido);
+
+let idadeValida = false
+do {
+    let idade = parseInt(prompt('Digite a idade'))
+    try {
+        validarIdade(idade)
+        idadeValida = true
+        pessoa.idade = idade
+    } catch (e) {
+        alert('Digite uma idade maior que 0')
+    }
+} while (!idadeValida);
+
+let foiOuNumFoiValido = false
+do {
+    let foiOuNumFoi = prompt('Foi à Disney?') != 'false'
+    try {
+        validarFoiADisney(foiOuNumFoi)
+        foiOuNumFoiValido = true
+        pessoa.foiADisney = foiOuNumFoi
+    } catch (e) {
+        console.log('Não sei se foi à Disney')
+    }
+} while (!foiOuNumFoiValido);
+
+alert(JSON.stringify(pessoa))
+
+</script>
